@@ -10,30 +10,30 @@ export default function MainContent() {
       {/* Ambient cyan glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[640px] rounded-full blur-[140px]"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[560px] h-[560px] rounded-full blur-[140px]"
           style={{ background: 'rgba(0, 212, 255, 0.06)' }}
         />
       </div>
 
-      <div className="relative z-10 flex flex-col items-center fade-up">
+      <div className="relative z-10 flex flex-col items-center fade-up -mt-10">
         <OrbCanvas />
 
-        <div className="mt-10 text-center space-y-1.5">
-          <h2 className="font-display text-[34px] font-light tracking-tight text-white leading-tight">
+        <div className="-mt-4 text-center space-y-1">
+          <h2 className="font-display text-[30px] font-light tracking-tight text-white leading-tight">
             Good evening.
           </h2>
-          <h3 className="font-display text-[34px] font-light tracking-tight text-white leading-tight">
+          <h3 className="font-display text-[30px] font-light tracking-tight text-white leading-tight">
             Welcome back.
           </h3>
-          <p className="text-[15px] text-[var(--text-secondary)] font-light mt-3">
+          <p className="text-[14px] text-[var(--text-secondary)] font-light mt-2">
             What would you like to accomplish today?
           </p>
         </div>
 
-        <div className="mt-12 w-full max-w-xl">
-          <div className="glass-panel glass-panel--accent p-4 flex items-center gap-4">
+        <div className="mt-8 w-full max-w-xl">
+          <div className="glass-panel glass-panel--accent p-3.5 flex items-center gap-4">
             <div
-              className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
+              className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0"
               style={{
                 background: 'rgba(0, 212, 255, 0.14)',
                 border: '1px solid rgba(0, 212, 255, 0.35)',

@@ -141,8 +141,8 @@ body {
 /* Tuesday Core animated container */
 .tuesday-core {
   position: relative;
-  width: 360px;
-  height: 360px;
+  width: 280px;
+  height: 280px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -155,11 +155,11 @@ body {
   inset: 0;
 }
 .tuesday-core__ring--2 {
-  inset: 28px;
+  inset: 22px;
   border-color: rgba(0, 212, 255, 0.12);
 }
 .tuesday-core__ring--3 {
-  inset: 60px;
+  inset: 48px;
   border-color: rgba(0, 212, 255, 0.08);
 }
 
@@ -192,7 +192,7 @@ body {
 }
 
 .tuesday-core__orbit--reverse {
-  inset: 28px;
+  inset: 22px;
   animation: tuesday-rotate 18s linear infinite reverse;
 }
 .tuesday-core__orbit--reverse::before {
@@ -202,8 +202,8 @@ body {
 
 .tuesday-core__disc {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, rgba(0, 212, 255, 0.18), rgba(13, 22, 36, 0.9) 70%);
   border: 1px solid rgba(0, 212, 255, 0.25);
