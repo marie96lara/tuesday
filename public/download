@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tuesday OS Dashboard</title>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Three.js for 3D visualizations -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- Google Fonts for a tech look -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="custom-theme">
+    body {
+      background-color: #050b14;
+      color: #e2e8f0;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      margin: 0;
+      overflow: hidden;
+    }
+    .glass-panel {
+      background: rgba(13, 20, 30, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+    }
+    .neon-blue-glow {
+      box-shadow: 0 0 15px rgba(0, 163, 255, 0.3);
+    }
+    .text-neon-blue {
+      color: #00a3ff;
+    }
+    .bg-neon-blue {
+      background-color: #00a3ff;
+    }
+    .border-neon-blue {
+      border-color: #00a3ff;
+    }
+    /* Custom scrollbar for sidebars if needed */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 163, 255, 0.2);
+      border-radius: 10px;
+    }
+  </style>
+<style data-purpose="animations">
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.02); }
+    }
+    .animate-pulse-slow {
+      animation: pulse-slow 4s ease-in-out infinite;
+    }
+    @keyframes waveform {
+      0%, 100% { height: 4px; }
+      50% { height: 16px; }
+    }
+    .waveform-bar {
+      animation: waveform 1.2s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden">
+<!-- BEGIN: TopHeader -->
+<header class="h-16 border-b border-white/5 flex items-center justify-between px-6 bg-[#050b14] z-50">
+<div class="flex items-center space-x-4">
+<div class="w-8 h-8 rounded-full border-2 border-neon-blue flex items-center justify-center">
+<span class="text-xs font-bold text-neon-blue">A</span>
+</div>
+<h1 class="text-lg font-semibold tracking-widest uppercase">Tuesday OS</h1>
+</div>
+<div class="flex items-center space-x-8 text-xs text-gray-400">
+<div class="flex items-center space-x-2">
+<span class="w-2 h-2 rounded-full bg-neon-blue animate-pulse"></span>
+<span class="text-neon-blue uppercase">Online</span>
+<span class="px-2 border-l border-white/10 uppercase">Idle</span>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-2 bg-white/5 px-3 py-1.5 rounded-md cursor-pointer hover:bg-white/10">
+<span class="text-xs">GPT-4o</span>
+<svg class="w-3 h-3" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<button class="relative text-gray-400 hover:text-white">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+<button class="text-gray-400 hover:text-white">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+<div class="w-8 h-8 rounded bg-gray-700 flex items-center justify-center text-xs font-bold">A</div>
+</div>
+</header>
+<!-- END: TopHeader -->
+<div class="flex flex-1 overflow-hidden">
+<!-- BEGIN: LeftSidebar -->
+<aside class="w-64 bg-[#050b14]/50 border-r border-white/5 flex flex-col p-4">
+<div class="glass-panel h-full flex flex-col">
+<div class="p-4 border-b border-white/5 flex items-center">
+<svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<nav class="flex-1 px-2 py-4 space-y-1">
+<a class="flex items-center space-x-4 px-3 py-3 rounded-lg bg-neon-blue/10 text-white border-l-2 border-neon-blue" href="#">
+<svg class="w-5 h-5 text-neon-blue" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-sm font-medium">Chat</span>
+</a>
+<a class="flex items-center space-x-4 px-3 py-3 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-sm">Memory</span>
+</a>
+<a class="flex items-center space-x-4 px-3 py-3 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-sm">Projects</span>
+</a>
+<a class="flex items-center space-x-4 px-3 py-3 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-sm">Files</span>
+</a>
+<a class="flex items-center space-x-4 px-3 py-3 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-sm">Knowledge</span>
+</a>
+<a class="flex items-center space-x-4 px-3 py-3 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 011-1h1a2 2 0 100-4H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-sm">Plugins</span>
+</a>
+<a class="flex items-center space-x-4 px-3 py-3 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-sm">Skills</span>
+</a>
+<a class="flex items-center space-x-4 px-3 py-3 rounded-lg text-gray-400 hover:bg-white/5 hover:text-white transition-colors" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="text-sm">History</span>
+</a>
+</nav>
+<div class="mt-auto p-4 border-t border-white/5 flex items-center justify-between text-gray-500">
+<button class="hover:text-white"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+<button class="hover:text-white"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+<button class="hover:text-white"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button>
+</div>
+</div>
+</aside>
+<!-- END: LeftSidebar -->
+<!-- BEGIN: MainContent -->
+<main class="flex-1 relative flex flex-col items-center justify-center overflow-hidden">
+<!-- Background Ambient Light -->
+<div class="absolute inset-0 pointer-events-none">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-blue/10 rounded-full blur-[120px]"></div>
+</div>
+<!-- Central Visualization Area -->
+<div class="relative z-10 flex flex-col items-center">
+<!-- 3D Scene Container -->
+<div class="relative flex items-center justify-center">
+<!-- STITCH_THREEJS_START:ANIMATION_4 class="w-[500px] h-[500px] mx-auto bg-transparent" -->
+<div class="w-[500px] h-[500px] mx-auto bg-transparent" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_4" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_4');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  
+const scene = new THREE.Scene();
+const width = container.clientWidth || window.innerWidth;
+const height = container.clientHeight || window.innerHeight;
+const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(width, height);
+renderer.setPixelRatio(window.devicePixelRatio);
+container.appendChild(renderer.domElement);
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0x00a3ff, 0.5);
+scene.add(ambientLight);
+const pointLight = new THREE.PointLight(0x00a3ff, 2, 50);
+pointLight.position.set(5, 5, 5);
+scene.add(pointLight);
+
+// Group to hold everything
+const orbGroup = new THREE.Group();
+scene.add(orbGroup);
+
+// Inner Core Glow (Shader-like Material)
+const coreGeometry = new THREE.SphereGeometry(1.5, 32, 32);
+const coreMaterial = new THREE.MeshPhongMaterial({
+    color: 0x00a3ff,
+    emissive: 0x00a3ff,
+    emissiveIntensity: 2,
+    transparent: true,
+    opacity: 0.8
+});
+const core = new THREE.Mesh(coreGeometry, coreMaterial);
+orbGroup.add(core);
+
+// Wireframe Globe
+const wireframeGeometry = new THREE.SphereGeometry(2.5, 32, 32);
+const wireframeMaterial = new THREE.MeshBasicMaterial({
+    color: 0x00a3ff,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.3
+});
+const wireframe = new THREE.Mesh(wireframeGeometry, wireframeMaterial);
+orbGroup.add(wireframe);
+
+// Particles / Points
+const pointsGeometry = new THREE.BufferGeometry();
+const pointsCount = 1000;
+const coords = new Float32Array(pointsCount * 3);
+for (let i = 0; i < pointsCount; i++) {
+    const r = 2.5 + Math.random() * 0.5;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    coords[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+    coords[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+    coords[i * 3 + 2] = r * Math.cos(phi);
+}
+pointsGeometry.setAttribute('position', new THREE.BufferAttribute(coords, 3));
+const pointsMaterial = new THREE.PointsMaterial({
+    color: 0x00ffff,
+    size: 0.05,
+    transparent: true,
+    opacity: 0.8
+});
+const points = new THREE.Points(pointsGeometry, pointsMaterial);
+orbGroup.add(points);
+
+camera.position.z = 8;
+
+// Mouse Tracking
+let mouseX = 0, mouseY = 0;
+window.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+});
+
+// Animation Loop
+function animate() {
+    requestAnimationFrame(animate);
+    
+    // Smooth rotations
+    orbGroup.rotation.y += 0.005;
+    wireframe.rotation.x += 0.002;
+    points.rotation.y -= 0.001;
+    
+    // Dynamic core pulse
+    const time = Date.now() * 0.001;
+    core.scale.setScalar(1 + Math.sin(time * 2) * 0.05);
+    coreMaterial.emissiveIntensity = 1.5 + Math.sin(time * 3) * 0.5;
+    
+    // Gentle mouse influence
+    orbGroup.rotation.x += (mouseY * 0.2 - orbGroup.rotation.x) * 0.05;
+    orbGroup.rotation.y += (mouseX * 0.2 - orbGroup.rotation.y) * 0.05;
+    
+    renderer.render(scene, camera);
+}
+
+window.addEventListener('resize', () => {
+    const w = container.clientWidth || window.innerWidth;
+    const h = container.clientHeight || window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+});
+
+animate();
+
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_4 -->
+</div>
+<div class="mt-4 text-center space-y-2">
+<h2 class="text-3xl font-light tracking-tight">Good evening, <span class="font-semibold">Amarjot</span></h2>
+<p class="text-gray-400 font-light">How can I help you today?</p>
+</div>
+<!-- Voice Interaction Bar -->
+<div class="mt-16 w-full max-w-2xl px-8">
+<div class="glass-panel p-4 flex items-center space-x-6 border-white/10 neon-blue-glow">
+<div class="w-12 h-12 rounded-full bg-neon-blue/20 flex items-center justify-center border border-neon-blue/40">
+<svg class="w-6 h-6 text-neon-blue" fill="currentColor" viewbox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"></path><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"></path></svg>
+</div>
+<div class="flex-1 flex items-end space-x-1.5 h-6">
+<!-- Animated Waveform -->
+<div class="w-1 bg-neon-blue/60 rounded-full waveform-bar" style="animation-delay: 0.1s"></div>
+<div class="w-1 bg-neon-blue rounded-full waveform-bar" style="animation-delay: 0.3s"></div>
+<div class="w-1 bg-neon-blue/80 rounded-full waveform-bar" style="animation-delay: 0.2s"></div>
+<div class="w-1 bg-neon-blue rounded-full waveform-bar" style="animation-delay: 0.5s"></div>
+<div class="w-1 bg-neon-blue/40 rounded-full waveform-bar" style="animation-delay: 0.4s"></div>
+<div class="w-1 bg-neon-blue/60 rounded-full waveform-bar" style="animation-delay: 0.6s"></div>
+<div class="w-1 bg-neon-blue rounded-full waveform-bar" style="animation-delay: 0.1s"></div>
+<div class="w-1 bg-neon-blue/30 rounded-full waveform-bar" style="animation-delay: 0.8s"></div>
+<div class="w-1 bg-neon-blue rounded-full waveform-bar" style="animation-delay: 0.2s"></div>
+<div class="flex-1 border-b border-white/5 mx-4 pb-1">
+<span class="text-sm text-gray-500 italic">Tap to speak... <span class="text-neon-blue">I'm listening...</span></span>
+</div>
+<div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center cursor-pointer hover:bg-white/5">
+<svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- END: MainContent -->
+<!-- BEGIN: RightSidebar -->
+<aside class="w-80 bg-[#050b14]/50 border-l border-white/5 flex flex-col p-4 space-y-4 overflow-y-auto">
+<!-- Market Overview Section -->
+<section class="glass-panel p-4">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Market Overview</h3>
+<span class="flex items-center text-[10px] text-green-500"><span class="w-1 h-1 bg-green-500 rounded-full mr-1"></span> Live</span>
+</div>
+<div class="space-y-6">
+<!-- Bitcoin Card -->
+<div class="flex items-start justify-between">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/20">
+<span class="text-orange-500 font-bold text-xs">₿</span>
+</div>
+<div>
+<p class="text-xs font-medium">Bitcoin</p>
+<p class="text-[10px] text-gray-500">BTC / USDT</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">$66,842.21</p>
+<p class="text-[10px] text-green-500">+2.35% ↑</p>
+</div>
+</div>
+<div class="h-10 w-full opacity-50">
+<!-- Simulated Sparkline -->
+<svg class="w-full h-full overflow-visible" viewbox="0 0 100 20">
+<path d="M0 15 Q 10 5, 20 12 T 40 8 T 60 14 T 80 5 T 100 10" fill="none" stroke="#00a3ff" stroke-width="1"></path>
+</svg>
+</div>
+<!-- Gold Card -->
+<div class="flex items-start justify-between pt-2 border-t border-white/5">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-full bg-yellow-500/10 flex items-center justify-center border border-yellow-500/20">
+<span class="text-yellow-500 font-bold text-xs">Au</span>
+</div>
+<div>
+<p class="text-xs font-medium">Gold</p>
+<p class="text-[10px] text-gray-500">XAU / USD</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold">$2,392.45</p>
+<p class="text-[10px] text-green-500">+1.18% ↑</p>
+</div>
+</div>
+<div class="h-10 w-full opacity-50">
+<svg class="w-full h-full overflow-visible" viewbox="0 0 100 20">
+<path d="M0 12 Q 15 18, 30 10 T 50 15 T 70 8 T 100 12" fill="none" stroke="#00a3ff" stroke-width="1"></path>
+</svg>
+</div>
+</div>
+</section>
+<!-- Latest News Section -->
+<section class="glass-panel p-4">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Latest News</h3>
+<a class="text-[10px] text-neon-blue hover:underline" href="#">View All</a>
+</div>
+<div class="space-y-4">
+<div class="flex items-start space-x-3 group cursor-pointer">
+<div class="w-7 h-7 rounded-full bg-blue-500/10 flex items-center justify-center mt-0.5">
+<span class="text-[10px] font-bold">₿</span>
+</div>
+<div class="flex-1">
+<p class="text-xs text-gray-200 group-hover:text-white leading-tight">Bitcoin breaks above $66K as ETF inflows surge</p>
+<p class="text-[9px] text-gray-500 mt-1">2m ago</p>
+</div>
+</div>
+<div class="flex items-start space-x-3 group cursor-pointer">
+<div class="w-7 h-7 rounded-full bg-yellow-500/10 flex items-center justify-center mt-0.5">
+<span class="text-[10px] font-bold">Au</span>
+</div>
+<div class="flex-1">
+<p class="text-xs text-gray-200 group-hover:text-white leading-tight">Gold holds steady as Fed signals rate cuts</p>
+<p class="text-[9px] text-gray-500 mt-1">15m ago</p>
+</div>
+</div>
+<div class="flex items-start space-x-3 group cursor-pointer">
+<div class="w-7 h-7 rounded-full bg-neon-blue/10 flex items-center justify-center mt-0.5">
+<svg class="w-3 h-3 text-neon-blue" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"></path></svg>
+</div>
+<div class="flex-1">
+<p class="text-xs text-gray-200 group-hover:text-white leading-tight">AI chips demand increases as Nvidia hits new high</p>
+<p class="text-[9px] text-gray-500 mt-1">32m ago</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Today's Schedule Section -->
+<section class="glass-panel p-4">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Today's Schedule</h3>
+<a class="text-[10px] text-neon-blue hover:underline" href="#">View All</a>
+</div>
+<ul class="space-y-3 text-xs">
+<li class="flex items-center space-x-3">
+<span class="w-1.5 h-1.5 rounded-full bg-neon-blue"></span>
+<span class="text-gray-400 w-16">07:00 PM</span>
+<span class="flex-1 font-medium">Team Standup</span>
+</li>
+<li class="flex items-center space-x-3">
+<span class="w-1.5 h-1.5 rounded-full bg-neon-blue"></span>
+<span class="text-gray-400 w-16">08:30 PM</span>
+<span class="flex-1 font-medium">Market Analysis</span>
+</li>
+<li class="flex items-center space-x-3">
+<span class="w-1.5 h-1.5 rounded-full bg-gray-600"></span>
+<span class="text-gray-400 w-16">10:00 PM</span>
+<span class="flex-1 font-medium">Project Phoenix Review</span>
+</li>
+</ul>
+</section>
+<!-- Current Tasks Section -->
+<section class="glass-panel p-4">
+<div class="flex items-center justify-between mb-4">
+<h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Current Tasks</h3>
+<a class="text-[10px] text-neon-blue hover:underline" href="#">View All</a>
+</div>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-[10px] mb-1">
+<span class="text-gray-300">Market Analysis Report</span>
+<span class="text-neon-blue">65%</span>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-neon-blue h-full" style="width: 65%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] mb-1">
+<span class="text-gray-300">Project Phoenix Development</span>
+<span class="text-neon-blue">40%</span>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-neon-blue h-full" style="width: 40%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] mb-1">
+<span class="text-gray-300">AI Model Training</span>
+<span class="text-neon-blue">25%</span>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-neon-blue h-full" style="width: 25%"></div>
+</div>
+</div>
+</div>
+</section>
+</aside>
+<!-- END: RightSidebar -->
+</div>
+<!-- BEGIN: BottomTimeline -->
+<footer class="h-32 border-t border-white/5 bg-[#050b14]/80 px-8 py-4 z-50">
+<h3 class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-6">Activity Timeline</h3>
+<div class="relative flex items-center justify-between px-10">
+<!-- Line Path -->
+<div class="absolute top-1/2 left-0 right-0 h-px bg-white/10 -translate-y-1/2"></div>
+<div class="absolute top-1/2 left-0 w-2/3 h-px bg-neon-blue/40 -translate-y-1/2"></div>
+<!-- Timeline Points -->
+<div class="relative z-10 flex flex-col items-center group">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center border-neon-blue/40 text-neon-blue mb-2 hover:scale-110 transition-transform">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<span class="text-[9px] text-gray-400">07:42 PM</span>
+<span class="text-[10px] font-medium text-white">System Started</span>
+</div>
+<div class="relative z-10 flex flex-col items-center group">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center border-neon-blue/40 text-neon-blue mb-2 hover:scale-110 transition-transform">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<span class="text-[9px] text-gray-400">07:43 PM</span>
+<span class="text-[10px] font-medium text-white">Memory Loaded</span>
+</div>
+<div class="relative z-10 flex flex-col items-center group">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center border-neon-blue/40 text-neon-blue mb-2 hover:scale-110 transition-transform">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<span class="text-[9px] text-gray-400">07:44 PM</span>
+<span class="text-[10px] font-medium text-white">Voice Activated</span>
+</div>
+<div class="relative z-10 flex flex-col items-center group">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center border-neon-blue/40 text-neon-blue mb-2 hover:scale-110 transition-transform">
+<span class="text-[10px] font-bold">₿</span>
+</div>
+<span class="text-[9px] text-gray-400">07:47 PM</span>
+<span class="text-[10px] font-medium text-white">Bitcoin Alert</span>
+</div>
+<div class="relative z-10 flex flex-col items-center group">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center border-white/10 text-gray-400 mb-2 hover:scale-110 transition-transform">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<span class="text-[9px] text-gray-400">07:49 PM</span>
+<span class="text-[10px] font-medium text-white">Project Created</span>
+</div>
+<div class="relative z-10 flex flex-col items-center group">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center border-white/10 text-gray-400 mb-2 hover:scale-110 transition-transform">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<span class="text-[9px] text-gray-400">07:52 PM</span>
+<span class="text-[10px] font-medium text-white">Plugin Updated</span>
+</div>
+<div class="relative z-10 flex flex-col items-center group">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center border-white/10 text-gray-400 mb-2 hover:scale-110 transition-transform">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<span class="text-[9px] text-gray-400">07:55 PM</span>
+<span class="text-[10px] font-medium text-white">Conversation Saved</span>
+</div>
+<div class="relative z-10 flex flex-col items-center group">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center border-white/10 text-gray-400 mb-2 hover:scale-110 transition-transform">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 9l3 3-3 3m5 0h3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<span class="text-[9px] text-gray-400">07:57 PM</span>
+<span class="text-[10px] font-medium text-white">Terminal Command</span>
+</div>
+</div>
+</footer>
+<!-- END: BottomTimeline -->
+<script>
+// Web Component for Three.js scene
+class ThreeJSScene extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+    }
+
+    connectedCallback() {
+        const container = document.createElement('div');
+        container.style.width = '100%';
+        container.style.height = '100%';
+        this.shadowRoot.appendChild(container);
+
+        const scriptContent = this.getAttribute('src');
+        if (scriptContent) {
+            try {
+                // Execute the animation code from the DataStore placeholder
+                const setupScene = new Function('container', 'THREE', scriptContent);
+                setupScene(container, THREE);
+            } catch (e) {
+                console.error("Failed to initialize Three.js scene:", e);
+            }
+        }
+    }
+}
+customElements.define('threejs-scene', ThreeJSScene);
+</script>
+</body></html>
