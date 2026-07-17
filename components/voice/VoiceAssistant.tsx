@@ -18,14 +18,11 @@ export default function VoiceAssistant() {
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<VoiceState>('listening');
 
-  // Open shortly after mount so the spring animation is visible
   useEffect(() => {
     const t = setTimeout(() => setOpen(true), 80);
     return () => clearTimeout(t);
   }, []);
 
-  // Cycle through states for demonstration. Future states can be wired to
-  // real voice pipelines without changing the structure below.
   useEffect(() => {
     if (!open) return;
     const cycle: VoiceState[] = ['listening', 'thinking', 'speaking', 'listening'];
@@ -41,7 +38,6 @@ export default function VoiceAssistant() {
 
   return (
     <div className="fixed inset-0 z-50">
-      {/* Dark blurred overlay */}
       {open && (
         <div
           className="voice-overlay absolute inset-0"
@@ -54,15 +50,8 @@ export default function VoiceAssistant() {
         />
       )}
 
-      {/* Floating glass popup */}
       {open && (
-        <div
-          className="voice-popup absolute left-1/2 bottom-16 flex flex-col items-center"
-          style={{
-            transform: 'translateX(-50%)',
-          }}
-        >
-          {/* Soft cyan glow behind the popup */}
+        <div className="voice-popup absolute left-1/2 bottom-16 flex flex-col items-center" style={{ transform: 'translateX(-50%)' }}>
           <div
             className="voice-glow absolute -inset-10 rounded-[40px] pointer-events-none"
             style={{
@@ -71,7 +60,6 @@ export default function VoiceAssistant() {
             }}
           />
 
-          {/* Glass card */}
           <div
             className="relative flex flex-col items-center px-12 py-10"
             style={{
@@ -84,7 +72,6 @@ export default function VoiceAssistant() {
               boxShadow: '0 24px 80px rgba(0, 0, 0, 0.5), 0 0 60px rgba(0, 163, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
             }}
           >
-            {/* Close button */}
             <button
               onClick={() => setOpen(false)}
               className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-colors hover:bg-white/10"
@@ -94,32 +81,23 @@ export default function VoiceAssistant() {
               <X className="w-4 h-4 text-gray-400" />
             </button>
 
-            {/* Tuesday AI Orb — reused exactly as-is from the dashboard */}
             <div className="pointer-events-none">
               <OrbCanvas />
             </div>
 
-            {/* State text */}
             <div className="mt-2 h-16 flex flex-col items-center justify-center text-center">
               {line1 && (
-                <p
-                  key={`l1-${state}`}
-                  className="voice-text text-lg font-light tracking-wide text-white"
-                >
+                <p key={`l1-${state}`} className="voice-text text-lg font-light tracking-wide text-white">
                   {line1}
                 </p>
               )}
               {line2 && (
-                <p
-                  key={`l2-${state}`}
-                  className="voice-text text-sm font-light text-gray-400 mt-1.5"
-                >
+                <p key={`l2-${state}`} className="voice-text text-sm font-light text-gray-400 mt-1.5">
                   {line2}
                 </p>
               )}
             </div>
 
-            {/* Minimal mic indicator */}
             <div className="mt-4">
               <MicIndicator state={state} />
             </div>

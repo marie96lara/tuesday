@@ -7,7 +7,6 @@ const waveOpacities = ['60', '100', '80', '100', '40', '60', '100', '30', '100']
 export default function MainContent() {
   return (
     <main className="flex-1 relative flex flex-col items-center justify-center overflow-hidden">
-      {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px]" style={{ background: 'rgba(0, 163, 255, 0.07)' }} />
       </div>

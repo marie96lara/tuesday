@@ -42,7 +42,6 @@ function SparklineGold() {
 export default function RightSidebar() {
   return (
     <aside className="w-[300px] flex-shrink-0 bg-[#050b14]/50 border-l border-white/5 flex flex-col p-4 space-y-3 overflow-y-auto">
-      {/* Market Overview */}
       <section style={glassPanel} className="p-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Market Overview</h3>
@@ -52,12 +51,11 @@ export default function RightSidebar() {
           </span>
         </div>
 
-        {/* Bitcoin */}
         <div>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: 'rgba(249, 115, 22, 0.1)', border: '1px solid rgba(249, 115, 22, 0.2)' }}>
-                <span className="text-orange-500 font-bold text-xs">₿</span>
+                <span className="text-orange-500 font-bold text-xs">B</span>
               </div>
               <div>
                 <p className="text-xs font-medium text-white">Bitcoin</p>
@@ -66,13 +64,12 @@ export default function RightSidebar() {
             </div>
             <div className="text-right">
               <p className="text-sm font-bold text-white">$66,842.21</p>
-              <p className="text-[10px] text-green-500">+2.35% ↑</p>
+              <p className="text-[10px] text-green-500">+2.35% </p>
             </div>
           </div>
           <SparklineBtc />
         </div>
 
-        {/* Gold */}
         <div className="pt-2 border-t border-white/5">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -86,14 +83,13 @@ export default function RightSidebar() {
             </div>
             <div className="text-right">
               <p className="text-sm font-bold text-white">$2,392.45</p>
-              <p className="text-[10px] text-green-500">+1.18% ↑</p>
+              <p className="text-[10px] text-green-500">+1.18% </p>
             </div>
           </div>
           <SparklineGold />
         </div>
       </section>
 
-      {/* Latest News */}
       <section style={glassPanel} className="p-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Latest News</h3>
@@ -101,9 +97,9 @@ export default function RightSidebar() {
         </div>
         <div className="space-y-4">
           {[
-            { icon: '₿', bg: 'rgba(59,130,246,0.1)', headline: 'Bitcoin breaks above $66K as ETF inflows surge', ago: '2m ago' },
+            { icon: 'B', bg: 'rgba(59,130,246,0.1)', headline: 'Bitcoin breaks above $66K as ETF inflows surge', ago: '2m ago' },
             { icon: 'Au', bg: 'rgba(234,179,8,0.1)', headline: 'Gold holds steady as Fed signals rate cuts', ago: '15m ago' },
-            { icon: '▲', bg: 'rgba(0,163,255,0.1)', headline: 'AI chips demand increases as Nvidia hits new high', ago: '32m ago', neon: true },
+            { icon: '^', bg: 'rgba(0,163,255,0.1)', headline: 'AI chips demand increases as Nvidia hits new high', ago: '32m ago', neon: true },
           ].map((n) => (
             <div key={n.headline} className="flex items-start space-x-3 group cursor-pointer">
               <div className="w-7 h-7 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0" style={{ background: n.bg }}>
@@ -118,7 +114,6 @@ export default function RightSidebar() {
         </div>
       </section>
 
-      {/* Today's Schedule */}
       <section style={glassPanel} className="p-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Today's Schedule</h3>
@@ -139,7 +134,6 @@ export default function RightSidebar() {
         </ul>
       </section>
 
-      {/* Current Tasks */}
       <section style={glassPanel} className="p-4">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Current Tasks</h3>
