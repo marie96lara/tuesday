@@ -6,9 +6,9 @@ import BottomTimeline from './components/BottomTimeline';
 
 function App() {
   return (
-    <div className="h-screen w-screen flex flex-col overflow-hidden bg-[#050b14] text-slate-200">
+    <div className="h-screen flex flex-col overflow-hidden bg-[#050b14] text-slate-200">
       <TopHeader />
-      <div className="flex flex-1 overflow-hidden min-h-0">
+      <div className="flex flex-1 overflow-hidden">
         <LeftSidebar />
         <MainContent />
         <RightSidebar />
