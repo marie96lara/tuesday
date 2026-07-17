@@ -1,5 +1,5 @@
 import { ArrowRight, Mic } from 'lucide-react';
-import OrbCanvas from './OrbCanvas';
+import OrbCanvas from '@/components/core/OrbCanvas';
 
 const waveDelays = [0.1, 0.3, 0.2, 0.5, 0.4, 0.6, 0.1, 0.8, 0.2];
 const waveOpacities = ['60', '100', '80', '100', '40', '60', '100', '30', '100'];
