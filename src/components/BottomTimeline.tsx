@@ -1,42 +1,59 @@
-import { Zap, Lightbulb, Mic, TrendingUp, Folder, Image, MessageSquare, Terminal } from 'lucide-react';
+import {
+  Zap,
+  Lightbulb,
+  Mic,
+  TrendingUp,
+  FolderPlus,
+  Puzzle,
+  MessageSquare,
+  TerminalSquare,
+} from 'lucide-react';
 
 const timelineEvents = [
-  { icon: Zap, time: '07:42 PM', label: 'System Started', active: true },
-  { icon: Lightbulb, time: '07:43 PM', label: 'Memory Loaded', active: true },
-  { icon: Mic, time: '07:44 PM', label: 'Voice Activated', active: true },
-  { icon: TrendingUp, time: '07:47 PM', label: 'Bitcoin Alert', active: true },
-  { icon: Folder, time: '07:49 PM', label: 'Project Created', active: false },
-  { icon: Image, time: '07:52 PM', label: 'Plugin Updated', active: false },
-  { icon: MessageSquare, time: '07:55 PM', label: 'Conversation Saved', active: false },
-  { icon: Terminal, time: '07:57 PM', label: 'Terminal Command', active: false },
+  { icon: Zap, time: '07:42 PM', label: 'System Started', desc: 'Runtime initialized', active: true },
+  { icon: Lightbulb, time: '07:43 PM', label: 'Memory Loaded', desc: 'Context restored', active: true },
+  { icon: Mic, time: '07:44 PM', label: 'Voice Activated', desc: 'Listening enabled', active: true },
+  { icon: TrendingUp, time: '07:47 PM', label: 'Bitcoin Alert', desc: 'Price target reached', active: true },
+  { icon: FolderPlus, time: '07:49 PM', label: 'Project Created', desc: 'Phoenix workspace', active: false },
+  { icon: Puzzle, time: '07:52 PM', label: 'Plugin Updated', desc: 'Market module v2.1', active: false },
+  { icon: MessageSquare, time: '07:55 PM', label: 'Conversation Saved', desc: 'Session archived', active: false },
+  { icon: TerminalSquare, time: '07:57 PM', label: 'Terminal Command', desc: 'deploy --env=prod', active: false },
 ];
 
 export default function BottomTimeline() {
   return (
-    <footer className="h-28 border-t border-white/5 bg-[#050b14]/80 px-8 py-3 z-50 flex-shrink-0">
-      <h3 className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3">Activity Timeline</h3>
-      <div className="relative flex items-center justify-between px-6">
-        <div className="absolute top-5 left-0 right-0 h-px bg-white/10" />
-        <div className="absolute top-5 left-0 w-2/3 h-px" style={{ background: 'rgba(0, 163, 255, 0.4)' }} />
+    <footer className="flex-shrink-0 px-6 py-4 z-50">
+      <div className="glass-panel px-6 py-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+            Activity Feed
+          </h3>
+          <span className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">
+            Last 8 events
+          </span>
+        </div>
 
-        {timelineEvents.map((e) => (
-          <div key={e.label} className="relative z-10 flex flex-col items-center group">
+        <div className="flex items-stretch gap-2 overflow-x-auto pb-1">
+          {timelineEvents.map((e) => (
             <div
-              className={`w-9 h-9 rounded-full flex items-center justify-center mb-1 transition-transform hover:scale-110 ${
-                e.active ? 'text-[#00a3ff]' : 'text-gray-400'
+              key={e.label}
+              className={`feed-item flex-shrink-0 min-w-[180px] ${
+                e.active ? '' : 'feed-item--muted'
               }`}
-              style={{
-                background: 'rgba(13, 20, 30, 0.6)',
-                backdropFilter: 'blur(12px)',
-                border: `1px solid ${e.active ? 'rgba(0, 163, 255, 0.4)' : 'rgba(255,255,255,0.1)'}`,
-              }}
             >
-              <e.icon className="w-4 h-4" />
+              <div className="feed-item__icon">
+                <e.icon className="w-4 h-4" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-xs font-medium text-white truncate">{e.label}</p>
+                  <span className="text-[10px] text-[var(--text-muted)] flex-shrink-0">{e.time}</span>
+                </div>
+                <p className="text-[10px] text-[var(--text-muted)] mt-0.5 truncate">{e.desc}</p>
+              </div>
             </div>
-            <span className="text-[9px] text-gray-400">{e.time}</span>
-            <span className="text-[10px] font-medium text-white whitespace-nowrap">{e.label}</span>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </footer>
   );
