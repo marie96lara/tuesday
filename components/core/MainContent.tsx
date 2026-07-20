@@ -1,5 +1,4 @@
 import { ArrowRight, Mic } from 'lucide-react';
-import OrbCanvas from '@/components/core/OrbCanvas';
 
 const waveDelays = [0.1, 0.3, 0.2, 0.5, 0.4, 0.6, 0.1, 0.8, 0.2];
 const waveOpacities = ['60', '100', '80', '100', '40', '60', '100', '30', '100'];
@@ -12,9 +11,7 @@ export default function MainContent() {
       </div>
 
       <div className="relative z-10 flex flex-col items-center">
-        <OrbCanvas />
-
-        <div className="mt-4 text-center space-y-2">
+        <div className="text-center space-y-2">
           <h2 className="text-3xl font-light tracking-tight text-white">
             Good evening, <span className="font-semibold">Amarjot</span>
           </h2>
