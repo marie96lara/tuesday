@@ -24,7 +24,7 @@ export default function OrbCanvas() {
       const scene = new THREE.Scene();
       const w = el.clientWidth;
       const h = el.clientHeight;
-      const camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 10000);
+      const camera = new THREE.PerspectiveCamera(75, w / h, 0.1, 1000);
       const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       renderer.setSize(w, h);
       renderer.setPixelRatio(window.devicePixelRatio);
@@ -39,7 +39,7 @@ export default function OrbCanvas() {
       const orbGroup = new THREE.Group();
       scene.add(orbGroup);
 
-      const coreGeo = new THREE.SphereGeometry(1.5, 32, 32);
+      const coreGeo = new THREE.SphereGeometry(1.5, 32, 1320);
       const coreMat = new THREE.MeshPhongMaterial({
         color: 0x00a3ff,
         emissive: 0x00a3ff,
