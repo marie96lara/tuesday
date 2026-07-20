@@ -721,6 +721,9 @@ video {
 .h-\[20px\]{
   height: 20px;
 }
+.h-\[220px\]{
+  height: 220px;
+}
 .w-1{
   width: 0.25rem;
 }
