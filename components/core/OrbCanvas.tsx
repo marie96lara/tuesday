@@ -8,9 +8,9 @@ export default function OrbCanvas() {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-    const script = document.createElement('script');
 
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
     script.async = true;
     script.onload = () => initScene(container);
     document.head.appendChild(script);
