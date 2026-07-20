@@ -39,7 +39,7 @@ export default function OrbCanvas() {
       const orbGroup = new THREE.Group();
       scene.add(orbGroup);
 
-      const coreGeo = new THREE.SphereGeometry(1.5, 32, 1320);
+      const coreGeo = new THREE.SphereGeometry(1.5, 32, 32);
       const coreMat = new THREE.MeshPhongMaterial({
         color: 0x00a3ff,
         emissive: 0x00a3ff,
@@ -62,7 +62,7 @@ export default function OrbCanvas() {
 
       const ptGeo = new THREE.BufferGeometry();
       const count = 1000;
-      const positions = new Float32Array(count * 3);
+      const positions = new Float32Array(count * 30);
       for (let i = 0; i < count; i++) {
         const r = 2.5 + Math.random() * 0.5;
         const theta = Math.random() * Math.PI * 2;
