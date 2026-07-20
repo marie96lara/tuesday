@@ -10,7 +10,7 @@ export default function OrbCanvas() {
     if (!container) return;
 
     const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+
     script.async = true;
     script.onload = () => initScene(container);
     document.head.appendChild(script);
