@@ -39,40 +39,32 @@ export default function OrbCanvas() {
       const orbGroup = new THREE.Group();
       scene.add(orbGroup);
 
-      const coreGeo = new THREE.SphereGeometry(1.5, 32, 32);
+      // Single core orb
+      const coreGeo = new THREE.SphereGeometry(1.5, 64, 64);
       const coreMat = new THREE.MeshPhongMaterial({
         color: 0x00a3ff,
         emissive: 0x00a3ff,
         emissiveIntensity: 2,
         transparent: true,
-        opacity: 0.8,
+        opacity: 0.85,
       });
       const core = new THREE.Mesh(coreGeo, coreMat);
       orbGroup.add(core);
 
-      const wireGeo = new THREE.SphereGeometry(2.5, 32, 32);
-      const wireMat = new THREE.MeshBasicMaterial({
-        color: 0x00a3ff,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.3,
-      });
-      const wire = new THREE.Mesh(wireGeo, wireMat);
-      orbGroup.add(wire);
-
+      // Particle cloud surrounding the single orb
       const ptGeo = new THREE.BufferGeometry();
       const count = 1000;
-      const positions = new Float32Array(count * 30);
+      const positions = new Float32Array(count * 3);
       for (let i = 0; i < count; i++) {
-        const r = 2.5 + Math.random() * 0.5;
+        const r = 2.0 + Math.random() * 0.8;
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.acos(2 * Math.random() - 1);
-        positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
         positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
         positions[i * 3 + 2] = r * Math.cos(phi);
       }
       ptGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      const ptMat = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.05, transparent: true, opacity: 0.8 });
+      const ptMat = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.05, transparent: true, opacity: 0.7 });
       const points = new THREE.Points(ptGeo, ptMat);
       orbGroup.add(points);
 
@@ -89,7 +81,6 @@ export default function OrbCanvas() {
       const animate = () => {
         animId = requestAnimationFrame(animate);
         orbGroup.rotation.y += 0.005;
-        wire.rotation.x += 0.002;
         points.rotation.y -= 0.001;
         const t = Date.now() * 0.001;
         core.scale.setScalar(1 + Math.sin(t * 2) * 0.05);
