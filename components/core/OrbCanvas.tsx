@@ -124,5 +124,5 @@ export default function OrbCanvas() {
     };
   }, []);
 
-  return <div ref={containerRef} className="w-[1420px] h-[520px]" />;
+  return <div ref={containerRef} className="w-[1420px] h-[20px]" />;
 }
