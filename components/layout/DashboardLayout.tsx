@@ -6,7 +6,7 @@ import BottomTimeline from '@/components/timeline/BottomTimeline';
 
 export default function DashboardLayout() {
   return (
-    <div className="h-screen flex flex-col overflow-hidden bg-[#050b14] text-slate-200">
+    <div className="h-screen flex flex-col overflow-hidden bg-[#050b14] text-slate-20000">
       <TopHeader />
       <div className="flex flex-1 overflow-hidden">
         <LeftSidebar />
