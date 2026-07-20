@@ -1,7 +1,7 @@
 import { MessageSquare, Lightbulb, Folder, FileText, BookOpen, Puzzle, Sparkles, History, Sun, Maximize2, ArrowLeftRight } from 'lucide-react';
 
 const navItems = [
-  { icon: MessageSquare, label: 'Chat', active: true },
+  { icon: MessageSquare, label: 'assistant', active: true },
   { icon: Lightbulb, label: 'Memory', active: false },
   { icon: Folder, label: 'Projects', active: false },
   { icon: FileText, label: 'Files', active: false },
